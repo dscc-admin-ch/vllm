@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llm-serving
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: llm-serving
+  template:
+    metadata:
+      labels:
+        app: llm-serving
+    spec:
+      containers:
+      - name: llm-serving
+        image: lancelotmarti/llm-serving  # Use your Docker image name
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            memory: "32Gi"
+            cpu: "8"
+          limits:
+            memory: "64Gi"
+            cpu: "16"
+        env:
+        - name: HF_TOKEN
+          value: "your_token"
+        command: ["python"]  # Explicitly specify the command to run
+        args:
+        - "vllm/entrypoints/openai/api_server.py"  # Your script to run
+        - "--model"
+        - "microsoft/Phi-3-mini-4k-instruct"
+        volumeMounts:
+        - mountPath: /dev/shm
+          name: dshm
+      volumes:
+      - name: dshm
+        emptyDir:
+          medium: Memory

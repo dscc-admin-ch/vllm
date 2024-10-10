@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llm-serving
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: llm-serving
+  template:
+    metadata:
+      labels:
+        app: llm-serving
+    spec:
+      containers:
+      - name: llm-serving
+        image:  vllm/vllm-openai:latest
+        ports:
+        - containerPort: 8000
+        resources:
+          limits:
+            nvidia.com/gpu: "1"
+        env:
+        - name: HF_TOKEN
+          value: "YOUR_TOKEN"
+        args:
+        - --model
+        - microsoft/Phi-3-mini-4k-instruct
+        - --gpu-memory-utilization
+        - "0.9"
+        - --dtype
+        - half
+        volumeMounts:
+        - mountPath: /dev/shm
+          name: dshm
+      volumes:
+      - name: dshm
+        emptyDir:
+          medium: Memory
