@@ -1,0 +1,16 @@
+general:
+  name: llm-serving
+  portnumber: 8000
+
+deployment:
+  hftoken: your_token
+  model: 
+    name: microsoft/Phi-3-mini-4k-instruct
+    memoryutilization: 0.9
+    dtype: half
+
+service:
+  namespace: user-jonasmorin
+
+ingress:
+  host: jonasmorin-llm-serving.lab.sspcloud.fr
