@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: vllm/vllm-openai:latest
+        ports:
+        - containerPort: {{ .Values.general.port.number }}
+        resources:
+          limits:
+            nvidia.com/gpu: "{{ .Values.deployment.gpu.number }}"
+        env:
+        - name: HF_TOKEN
+          value: "{{ .Values.deployment.hftoken }}"
+        args:
+        - --model
+        - {{ .Values.deployment.model.name }}
+        - --gpu-memory-utilization
+        - "{{ .Values.deployment.model.memoryutilization }}"
+        - --dtype
+        - "{{ .Values.deployment.model.dtype }}"
+        volumeMounts:
+        - mountPath: /dev/shm
+          name: dshm
+      volumes:
+      - name: dshm
+        emptyDir:
+          medium: Memory

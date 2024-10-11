@@ -1,0 +1,17 @@
+general:
+  port:
+    number: 8000
+    nodePort: 30501
+
+
+deployment:
+  hftoken: your_token
+  model: 
+    name: microsoft/Phi-3-mini-4k-instruct
+    memoryutilization: 0.9
+    dtype: half
+  gpu:
+    number: 1
+
+ingress:
+  host: llm-serving.example.com
