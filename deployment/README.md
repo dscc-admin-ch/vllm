@@ -36,7 +36,7 @@ kubectl apply -f ingress.yaml
 ## Helm deployment
 In order to deploy using helm :
 
-Go to directory `cd ./helm/cpu` and use the following commands:
+Go to directory `cd ./helm/gpu` and use the following command:
 
 ```bash
 helm install llm-serving .
