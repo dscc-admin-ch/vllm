@@ -31,3 +31,13 @@ kubectl apply -f service.yaml
 ```bash
 kubectl apply -f ingress.yaml
 ```
+
+
+## Helm deployment
+In order to deploy using helm :
+
+Go to directory `cd ./helm/cpu` and use the following commands:
+
+```bash
+helm install llm-serving .
+```

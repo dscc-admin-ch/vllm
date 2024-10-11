@@ -16,10 +16,10 @@ spec:
       - name: {{ .Chart.Name }}
         image: vllm/vllm-openai:latest
         ports:
-        - containerPort: {{ .Values.general.portnumber }}
+        - containerPort: {{ .Values.general.port.number }}
         resources:
           limits:
-            nvidia.com/gpu: "1"
+            nvidia.com/gpu: "{{ .Values.deployment.gpu.number }}"
         env:
         - name: HF_TOKEN
           value: "{{ .Values.deployment.hftoken }}"

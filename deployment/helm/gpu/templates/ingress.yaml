@@ -15,4 +15,4 @@ spec:
           service:
             name: {{ .Chart.Name }}
             port: 
-              number: {{ .Values.general.portnumber }}
+              number: {{ .Values.general.port.number }}

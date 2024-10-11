@@ -4,13 +4,12 @@ metadata:
   name: {{ .Chart.Name }}
   labels:
     app: {{ .Chart.Name }}
-  namespace: {{ .Values.service.namespace }}
 spec:
   selector:
     app: {{ .Chart.Name }}
   ports:
-  - port: {{ .Values.general.portnumber }}
+  - port: {{ .Values.general.port.number }}
     protocol: TCP
-    targetPort: {{ .Values.general.portnumber }}
-    nodePort: 30501
+    targetPort: {{ .Values.general.port.number }}
+    nodePort: {{ .Values.general.port.nodePort }}
   type: NodePort
