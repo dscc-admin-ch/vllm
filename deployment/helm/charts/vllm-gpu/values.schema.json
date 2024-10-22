@@ -1,0 +1,82 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "lomas-server": {
+            "type": "object",
+            "properties": {
+                "dashboard": {
+                    "title": "Dashboard Configuration",
+                    "type": "object",
+                    "properties": {
+                        "hostname": {
+                            "type": "string",
+                            "title":"Hostname",
+                            "x-onyxia": {
+                                "hidden": false,
+                                "overwriteDefaultWith": "{{project.id}}-{{k8s.randomSubdomain}}-lomas-server-{{k8s.domain}}"
+                            }
+                        },
+                        "port": {
+                            "type": "integer",
+                            "title":"Port number",
+                            "default": 8000,
+                            "abc": false
+                        },
+                        "node": {
+                            "type": "integer",
+                            "title":"Port node",
+                            "default": 30501,
+                            "abc": false
+                        }
+                    }
+                },
+                "model": {
+                    "title": "Model Configuration",
+                    "type": "object",
+                    "properties": {
+                        "modelname": {
+                            "type": "string",
+                            "title":"Model name",
+                            "x-onyxia": {
+                                "hidden": false,
+                                "overwriteDefaultWith":"microsoft/Phi-3-mini-4k-instruct"
+                            }
+                        },
+                        "memoryutilization": {
+                            "type": "float",
+                            "title":"Memory utilization",
+                            "default": 0.9,
+                            "render": "slider",
+                            "sliderMin": 0,
+                            "sliderMax": 1,
+                            "sliderStep": 0.01,
+                            "sliderExtremity": "down",
+                            "sliderExtremitySemantic": "guaranteed"
+                        },
+                        "dtype": {
+                            "type": "string",
+                            "default": "half",
+                            "enum": [
+                                "auto",
+                                "half",
+                                "float16",
+                                "bfloat16",
+                                "float",
+                                "float32"
+                            ]
+                        },
+                        "huggingfacetoken": {
+                            "type": "string",
+                            "title":"Huggingface token",
+                            "x-onyxia": {
+                                "hidden": false,
+                                "overwriteDefaultWith":""
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
