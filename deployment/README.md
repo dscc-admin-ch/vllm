@@ -60,3 +60,21 @@ Go to directory `cd ./helm/charts/vllm-gpu` and use the following command:
 ```bash
 helm install llm-serving .
 ```
+
+
+### From published chart
+In order to install the published helm chart
+
+```bash
+helm repo add vllm https://dscc-admin-ch.github.io/helm-charts
+```
+
+Then, load and adapt the default values.yaml
+```bash
+helm show values vllm/llm-serving > values.yaml
+```
+
+And finally, install it:
+```bash
+helm install llm-serving -f values.yaml vllm/llm-serving 
+```
