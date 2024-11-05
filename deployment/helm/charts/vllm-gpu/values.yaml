@@ -14,4 +14,4 @@ deployment:
     number: 1
 
 ingress:
-  host: llm-serving.example.com
+  host: demo-vllm-serving.lab.sspcloud.fr
