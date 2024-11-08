@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llm-serving
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: llm-serving
+  template:
+    metadata:
+      labels:
+        app: llm-serving
+    spec:
+      containers:
+      - name: llm-serving
+        image:  vllm/vllm-openai:latest
+        ports:
+        - containerPort: 8000
+        resources:
+          limits:
+            nvidia.com/gpu: "1"
+        env:
+        - name: HF_TOKEN
+          value: "YOUR_TOKEN"
+        args:
+        - --model
+        - /root/.cache/huggingface/Phi-3-mini-4k-instruct
+        - --gpu-memory-utilization
+        - "0.8"
+        - --dtype
+        - half
+        - --max-model-len
+        - "8208"
+        volumeMounts:
+        - mountPath: /dev/shm
+          name: dshm
+        - mountPath: /root/.cache/huggingface
+          name: minio-bucket
+
+
+      initContainers:
+      - name: minio-init
+        image: minio/mc
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            export AWS_ACCESS_KEY_ID=AWS_ACCESS_KEY_ID
+            export AWS_SECRET_ACCESS_KEY=AWS_SECRET_ACCESS_KEY
+            export S3_ENDPOINT=$S3_ENDPOINT
+            mc alias set s3 $S3_ENDPOINT $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY
+            mc cp -r s3/lmarti/diffusion/models/Phi-3-mini-4k-instruct /root/.cache/huggingface/Phi-3-mini-4k-instruct
+        env:
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: llms-secrets3
+                key: AWS_ACCESS_KEY_ID
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: llms-secrets3
+                key: AWS_SECRET_ACCESS_KEY
+          - name: S3_ENDPOINT
+            valueFrom:
+              secretKeyRef:
+                name: llms-secrets3
+                key: S3_ENDPOINT
+        volumeMounts:
+          - name: minio-bucket
+            mountPath: /root/.cache/huggingface/Phi-3-mini-4k-instruct
+      
+      volumes:
+      - name: dshm
+        emptyDir:
+          medium: Memory
+      - name: minio-bucket
+        emptyDir: {}
