@@ -6,7 +6,7 @@ metadata:
     name: llm-serving
 spec:
   rules:
-  - host: lancelot-llm-serving.lab.sspcloud.fr
+  - host: llm-serving.lab.sspcloud.fr
     http:
       paths:
       - pathType: Prefix

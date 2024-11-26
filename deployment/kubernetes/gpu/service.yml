@@ -4,7 +4,7 @@ metadata:
   name: llm-serving
   labels:
     app: llm-serving
-  namespace: user-lmarti
+  namespace: user-jonasmorin
 spec:
   selector:
     app: llm-serving
