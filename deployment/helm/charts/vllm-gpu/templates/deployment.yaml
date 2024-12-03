@@ -402,22 +402,22 @@ spec:
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.s3.secretName }}
+              name: "{{ include "llm-serving.secretName" . }}"
               key: AWS_ACCESS_KEY_ID
         - name: AWS_SECRET_ACCESS_KEY
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.s3.secretName }}
+              name: "{{ include "llm-serving.secretName" . }}"
               key: AWS_SECRET_ACCESS_KEY
         - name: AWS_S3_ENDPOINT
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.s3.secretName }}
+              name: "{{ include "llm-serving.secretName" . }}"
               key: AWS_S3_ENDPOINT
         - name: AWS_SESSION_TOKEN
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.s3.secretName }}
+              name: "{{ include "llm-serving.secretName" . }}"
               key: AWS_SESSION_TOKEN
         volumeMounts:
         - name: minio-bucket
