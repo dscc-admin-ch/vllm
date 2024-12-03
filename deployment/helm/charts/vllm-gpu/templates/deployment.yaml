@@ -25,15 +25,410 @@ spec:
           value: "{{ .Values.deployment.hftoken }}"
         args:
         - --model
-        - {{ .Values.deployment.model.name }}
+        {{- if .Values.s3.enabled }}
+        - /root/.cache/huggingface/{{ .Values.deployment.args.model }}
+        {{- else }}
+        - {{ .Values.deployment.args.model }}
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "memoryutilization" }}
         - --gpu-memory-utilization
-        - "{{ .Values.deployment.model.memoryutilization }}"
+        - "{{ .Values.deployment.args.memoryutilization }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "dtype" }}
         - --dtype
-        - "{{ .Values.deployment.model.dtype }}"
+        - "{{ .Values.deployment.args.dtype }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "tokenizer" }}
+        - --tokenizer
+        - "{{ .Values.deployment.args.tokenizer }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "skipTokenizerInit" }}
+        - --skip-tokenizer-init
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "revision" }}
+        - --revision
+        - "{{ .Values.deployment.args.revision }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "codeRevision" }}
+        - --code-revision
+        - "{{ .Values.deployment.args.codeRevision }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "tokenizerRevision" }}
+        - --tokenizer-revision
+        - "{{ .Values.deployment.args.tokenizerRevision }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "tokenizerMode" }}
+        - --tokenizer-mode
+        - "{{ .Values.deployment.args.tokenizerMode }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "chatTemplateTextFormat" }}
+        - --chat-template-text-format
+        - "{{ .Values.deployment.args.chatTemplateTextFormat }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "trustRemoteCode" }}
+        - --trust-remote-code
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "allowedLocalMediaPath" }}
+        - --allowed-local-media-path
+        - "{{ .Values.deployment.args.allowedLocalMediaPath }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "downloadDir" }}
+        - --download-dir
+        - "{{ .Values.deployment.args.downloadDir }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "loadFormat" }}
+        - --load-format
+        - "{{ .Values.deployment.args.loadFormat }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "configFormat" }}
+        - --config-format
+        - "{{ .Values.deployment.args.configFormat }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "kvCacheDtype" }}
+        - --kv-cache-dtype
+        - "{{ .Values.deployment.args.kvCacheDtype }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "quantizationParamPath" }}
+        - --quantization-param-path
+        - "{{ .Values.deployment.args.quantizationParamPath }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "maxModelLen" }}
+        - --max-model-len
+        - "{{ .Values.deployment.args.maxModelLen }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "guidedDecodingBackend" }}
+        - --guided-decoding-backend
+        - "{{ .Values.deployment.args.guidedDecodingBackend }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "distributedExecutorBackend" }}
+        - --distributed-executor-backend
+        - "{{ .Values.deployment.args.distributedExecutorBackend }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "workerUseRay" }}
+        - --worker-use-ray
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "pipelineParallelSize" }}
+        - --pipeline-parallel-size
+        - "{{ .Values.deployment.args.pipelineParallelSize }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "tensorParallelSize" }}
+        - --tensor-parallel-size
+        - "{{ .Values.deployment.args.tensorParallelSize }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "maxParallelLoadingWorkers" }}
+        - --max-parallel-loading-workers
+        - "{{ .Values.deployment.args.maxParallelLoadingWorkers }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "rayWorkersUseNsight" }}
+        - --ray-workers-use-nsight
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "blockSize" }}
+        - --block-size
+        - "{{ .Values.deployment.args.blockSize }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "enablePrefixCaching" }}
+        - --enable-prefix-caching
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "disableSlidingWindow" }}
+        - --disable-sliding-window
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "useV2BlockManager" }}
+        - --use-v2-block-manager
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "numLookaheadSlots" }}
+        - --num-lookahead-slots
+        - "{{ .Values.deployment.args.numLookaheadSlots }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "seed" }}
+        - --seed
+        - "{{ .Values.deployment.args.seed }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "swapSpace" }}
+        - --swap-space
+        - "{{ .Values.deployment.args.swapSpace }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "cpuOffloadGb" }}
+        - --cpu-offload-gb
+        - "{{ .Values.deployment.args.cpuOffloadGb }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "gpuMemoryUtilization" }}
+        - --gpu-memory-utilization
+        - "{{ .Values.deployment.args.gpuMemoryUtilization }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "numGpuBlocksOverride" }}
+        - --num-gpu-blocks-override
+        - "{{ .Values.deployment.args.numGpuBlocksOverride }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "maxNumBatchedTokens" }}
+        - --max-num-batched-tokens
+        - "{{ .Values.deployment.args.maxNumBatchedTokens }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "maxNumSeqs" }}
+        - --max-num-seqs
+        - "{{ .Values.deployment.args.maxNumSeqs }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "maxLogprobs" }}
+        - --max-logprobs
+        - "{{ .Values.deployment.args.maxLogprobs }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "disableLogStats" }}
+        - --disable-log-stats
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "quantization" }}
+        - --quantization
+        - "{{ .Values.deployment.args.quantization }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "ropeScaling" }}
+        - --rope-scaling
+        - "{{ .Values.deployment.args.ropeScaling }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "ropeTheta" }}
+        - --rope-theta
+        - "{{ .Values.deployment.args.ropeTheta }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "hfOverrides" }}
+        - --hf-overrides
+        - "{{ .Values.deployment.args.hfOverrides }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "enforceEager" }}
+        - --enforce-eager
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "maxSeqLenToCapture" }}
+        - --max-seq-len-to-capture
+        - "{{ .Values.deployment.args.maxSeqLenToCapture }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "disableCustomAllReduce" }}
+        - --disable-custom-all-reduce
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "tokenizerPoolSize" }}
+        - --tokenizer-pool-size
+        - "{{ .Values.deployment.args.tokenizerPoolSize }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "tokenizerPoolType" }}
+        - --tokenizer-pool-type
+        - "{{ .Values.deployment.args.tokenizerPoolType }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "tokenizerPoolExtraConfig" }}
+        - --tokenizer-pool-extra-config
+        - "{{ .Values.deployment.args.tokenizerPoolExtraConfig }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "limitMmPerPrompt" }}
+        - --limit-mm-per-prompt
+        - "{{ .Values.deployment.args.limitMmPerPrompt }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "mmProcessorKwargs" }}
+        - --mm-processor-kwargs
+        - "{{ .Values.deployment.args.mmProcessorKwargs }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "enableLora" }}
+        - --enable-lora
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "enableLoraBias" }}
+        - --enable-lora-bias
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "maxLoras" }}
+        - --max-loras
+        - "{{ .Values.deployment.args.maxLoras }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "maxLoraRank" }}
+        - --max-lora-rank
+        - "{{ .Values.deployment.args.maxLoraRank }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "loraExtraVocabSize" }}
+        - --lora-extra-vocab-size
+        - "{{ .Values.deployment.args.loraExtraVocabSize }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "loraDtype" }}
+        - --lora-dtype
+        - "{{ .Values.deployment.args.loraDtype }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "longLoraScalingFactors" }}
+        - --long-lora-scaling-factors
+        - "{{ .Values.deployment.args.longLoraScalingFactors }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "maxCpuLoras" }}
+        - --max-cpu-loras
+        - "{{ .Values.deployment.args.maxCpuLoras }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "fullyShardedLoras" }}
+        - --fully-sharded-loras
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "enablePromptAdapter" }}
+        - --enable-prompt-adapter
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "maxPromptAdapters" }}
+        - --max-prompt-adapters
+        - "{{ .Values.deployment.args.maxPromptAdapters }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "maxPromptAdapterToken" }}
+        - --max-prompt-adapter-token
+        - "{{ .Values.deployment.args.maxPromptAdapterToken }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "device" }}
+        - --device
+        - "{{ .Values.deployment.args.device }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "numSchedulerSteps" }}
+        - --num-scheduler-steps
+        - "{{ .Values.deployment.args.numSchedulerSteps }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "multiStepStreamOutputs" }}
+        - --multi-step-stream-outputs
+        - "{{ .Values.deployment.args.multiStepStreamOutputs }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "schedulerDelayFactor" }}
+        - --scheduler-delay-factor
+        - "{{ .Values.deployment.args.schedulerDelayFactor }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "enableChunkedPrefill" }}
+        - --enable-chunked-prefill
+        - "{{ .Values.deployment.args.enableChunkedPrefill }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "speculativeModel" }}
+        - --speculative-model
+        - "{{ .Values.deployment.args.speculativeModel }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "speculativeModelQuantization" }}
+        - --speculative-model-quantization
+        - "{{ .Values.deployment.args.speculativeModelQuantization }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "numSpeculativeTokens" }}
+        - --num-speculative-tokens
+        - "{{ .Values.deployment.args.numSpeculativeTokens }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "speculativeDisableMqaScorer" }}
+        - --speculative-disable-mqa-scorer
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "speculativeDraftTensorParallelSize" }}
+        - --speculative-draft-tensor-parallel-size
+        - "{{ .Values.deployment.args.speculativeDraftTensorParallelSize }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "speculativeMaxModelLen" }}
+        - --speculative-max-model-len
+        - "{{ .Values.deployment.args.speculativeMaxModelLen }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "speculativeDisableByBatchSize" }}
+        - --speculative-disable-by-batch-size
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "ngramPromptLookupMax" }}
+        - --ngram-prompt-lookup-max
+        - "{{ .Values.deployment.args.ngramPromptLookupMax }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "ngramPromptLookupMin" }}
+        - --ngram-prompt-lookup-min
+        - "{{ .Values.deployment.args.ngramPromptLookupMin }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "specDecodingAcceptanceMethod" }}
+        - --spec-decoding-acceptance-method
+        - "{{ .Values.deployment.args.specDecodingAcceptanceMethod }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "typicalAcceptanceSamplerPosteriorThreshold" }}
+        - --typical-acceptance-sampler-posterior-threshold
+        - "{{ .Values.deployment.args.typicalAcceptanceSamplerPosteriorThreshold }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "typicalAcceptanceSamplerPosteriorAlpha" }}
+        - --typical-acceptance-sampler-posterior-alpha
+        - "{{ .Values.deployment.args.typicalAcceptanceSamplerPosteriorAlpha }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "disableLogprobsDuringSpecDecoding" }}
+        - --disable-logprobs-during-spec-decoding
+        - "{{ .Values.deployment.args.disableLogprobsDuringSpecDecoding }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "modelLoaderExtraConfig" }}
+        - --model-loader-extra-config
+        - "{{ .Values.deployment.args.modelLoaderExtraConfig }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "ignorePatterns" }}
+        - --ignore-patterns
+        - "{{ .Values.deployment.args.ignorePatterns }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "preemptionMode" }}
+        - --preemption-mode
+        - "{{ .Values.deployment.args.preemptionMode }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "servedModelName" }}
+        - --served-model-name
+        - "{{ .Values.deployment.args.servedModelName }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "qloraAdapterNameOrPath" }}
+        - --qlora-adapter-name-or-path
+        - "{{ .Values.deployment.args.qloraAdapterNameOrPath }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "otlpTracesEndpoint" }}
+        - --otlp-traces-endpoint
+        - "{{ .Values.deployment.args.otlpTracesEndpoint }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "collectDetailedTraces" }}
+        - --collect-detailed-traces
+        - "{{ .Values.deployment.args.collectDetailedTraces }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "disableAsyncOutputProc" }}
+        - --disable-async-output-proc
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "schedulingPolicy" }}
+        - --scheduling-policy
+        - "{{ .Values.deployment.args.schedulingPolicy }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "overrideNeuronConfig" }}
+        - --override-neuron-config
+        - "{{ .Values.deployment.args.overrideNeuronConfig }}"
+        {{- end }}
+        {{- if hasKey .Values.deployment.args "overridePoolerConfig" }}
+        - --override-pooler-config
+        - "{{ .Values.deployment.args.overridePoolerConfig }}"
+        {{- end }}
         volumeMounts:
         - mountPath: /dev/shm
           name: dshm
+        {{- if .Values.s3.enabled }}
+        - mountPath: /root/.cache/huggingface
+          name: minio-bucket
+        {{- end }}
+
+      {{- if .Values.s3.enabled }}
+      initContainers:
+      - name: minio-init
+        image: minio/mc
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+            export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+            export AWS_S3_ENDPOINT=$AWS_S3_ENDPOINT
+            export AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN
+            export MC_HOST_s3=https://$AWS_ACCESS_KEY_ID:$AWS_SECRET_ACCESS_KEY:$AWS_SESSION_TOKEN@$AWS_S3_ENDPOINT
+            mc cp -r s3/{{ .Values.s3.bucket }}/{{ .Values.s3.modelPath }} /root/.cache/huggingface/{{ .Values.deployment.args.model }}
+        env:
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.s3.secretName }}
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.s3.secretName }}
+              key: AWS_SECRET_ACCESS_KEY
+        - name: AWS_S3_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.s3.secretName }}
+              key: AWS_S3_ENDPOINT
+        - name: AWS_SESSION_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.s3.secretName }}
+              key: AWS_SESSION_TOKEN
+        volumeMounts:
+        - name: minio-bucket
+          mountPath: /root/.cache/huggingface/{{ .Values.deployment.args.model }}
+      {{- end }}
+
       volumes:
       - name: dshm
         emptyDir:
           medium: Memory
+      {{- if .Values.s3.enabled }}
+      - name: minio-bucket
+        emptyDir: {}
+      {{- end }}

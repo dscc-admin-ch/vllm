@@ -6,12 +6,19 @@ general:
 
 deployment:
   hftoken: your_token
-  model: 
-    name: microsoft/Phi-3-mini-4k-instruct
-    memoryutilization: 0.9
+  args: 
+    model: microsoft/Phi-3-mini-4k-instruct # Phi-3-mini-4k-instruct
+    memoryutilization: 0.8
     dtype: half
+    maxModelLen: 8208
   gpu:
     number: 1
 
 ingress:
   host: llm-serving.example.com
+
+s3:
+  enabled: false # Set to true to use S3
+  bucket: "your_bucket_name"
+  modelPath: "model_path"
+  secretName: "secrets_s3"

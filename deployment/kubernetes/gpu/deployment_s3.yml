@@ -55,22 +55,22 @@ spec:
           - name: AWS_ACCESS_KEY_ID
             valueFrom:
               secretKeyRef:
-                name: vscode-python-183245-secrets3
+                name: secrets3
                 key: AWS_ACCESS_KEY_ID
           - name: AWS_SECRET_ACCESS_KEY
             valueFrom:
               secretKeyRef:
-                name: vscode-python-183245-secrets3
+                name: secrets3
                 key: AWS_SECRET_ACCESS_KEY
           - name: AWS_S3_ENDPOINT
             valueFrom:
               secretKeyRef:
-                name: vscode-python-183245-secrets3
+                name: secrets3
                 key: AWS_S3_ENDPOINT
           - name: AWS_SESSION_TOKEN
             valueFrom:
               secretKeyRef:
-                name: vscode-python-183245-secrets3
+                name: secrets3
                 key: AWS_SESSION_TOKEN
         volumeMounts:
           - name: minio-bucket
