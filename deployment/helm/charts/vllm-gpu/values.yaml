@@ -1,17 +1,40 @@
-general:
+nameOverride: ""
+fullnameOverride: "llm-serving"
+
+deployment:
+  image:
+    repository: vllm/vllm-openai
+    pullPolicy: Always
+    tag: latest
+  hftoken: your_token
+  args: 
+    model: microsoft/Phi-3-mini-4k-instruct # Phi-3-mini-4k-instruct
+    memoryutilization: 0.8
+    dtype: half
+    maxModelLen: 8208
+  gpu:
+    number: 1
+
+service:
   port:
     number: 8000
     nodePort: 30501
 
 
-deployment:
-  hftoken: your_token
-  model: 
-    name: microsoft/Phi-3-mini-4k-instruct
-    memoryutilization: 0.9
-    dtype: half
-  gpu:
-    number: 1
-
 ingress:
-  host: llm-serving.example.com
+    enabled: true
+    className: "nginx"
+    annotations: 
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    hostname: "llm-serving.example.com"
+
+s3:
+  enabled: false # Set to true to use S3
+  bucket: "your_bucket_name"
+  modelPath: "path_to_model"
+  # If not set and create is true, a name is generated using the fullname template
+  accessKeyId: ""
+  endpoint: ""
+  defaultRegion: ""
+  secretAccessKey: ""
+  sessionToken: ""
