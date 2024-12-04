@@ -1,5 +1,6 @@
 nameOverride: ""
 fullnameOverride: "llm-serving"
+podAnnotations: {}
 
 deployment:
   image:
