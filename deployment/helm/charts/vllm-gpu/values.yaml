@@ -1,3 +1,5 @@
+fullnameOverride: "llm-serving"
+
 general:
   port:
     number: 8000
