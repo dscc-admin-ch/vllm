@@ -1,10 +1,11 @@
-general:
-  port:
-    number: 8000
-    nodePort: 30501
-
+nameOverride: ""
+fullnameOverride: "llm-serving"
 
 deployment:
+  image:
+    repository: vllm/vllm-openai
+    pullPolicy: Always
+    tag: latest
   hftoken: your_token
   args: 
     model: microsoft/Phi-3-mini-4k-instruct # Phi-3-mini-4k-instruct
@@ -14,8 +15,18 @@ deployment:
   gpu:
     number: 1
 
+service:
+  port:
+    number: 8000
+    nodePort: 30501
+
+
 ingress:
-  host: llm-serving.example.com
+    enabled: true
+    className: "nginx"
+    annotations: 
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    hostname: "llm-serving.example.com"
 
 s3:
   enabled: false # Set to true to use S3
