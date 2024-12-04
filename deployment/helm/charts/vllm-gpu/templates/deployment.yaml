@@ -14,9 +14,10 @@ spec:
     spec:
       containers:
       - name: {{ .Chart.Name }}
-        image: vllm/vllm-openai:latest
+        image: "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}"
+        imagePullPolicy: {{ .Values.deployment.image.pullPolicy }}
         ports:
-        - containerPort: {{ .Values.general.port.number }}
+        - containerPort: {{ .Values.service.port.number }}
         resources:
           limits:
             nvidia.com/gpu: "{{ .Values.deployment.gpu.number }}"
