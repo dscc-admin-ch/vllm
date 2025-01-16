@@ -51,6 +51,7 @@ kubectl apply -f service.yaml
 kubectl apply -f ingress.yaml
 ```
 
+Note: deployment_s3.yml is an example on how to deploy a vllm using a model stored within s3.
 
 ## Helm deployment
 In order to deploy using helm :
