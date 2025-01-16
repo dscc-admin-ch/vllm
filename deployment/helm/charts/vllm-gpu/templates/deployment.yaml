@@ -402,7 +402,7 @@ spec:
             export AWS_S3_ENDPOINT=$AWS_S3_ENDPOINT
             export AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN
             export MC_HOST_s3=https://$AWS_ACCESS_KEY_ID:$AWS_SECRET_ACCESS_KEY:$AWS_SESSION_TOKEN@$AWS_S3_ENDPOINT
-            mc cp -r s3/{{ .Values.s3.bucket }}/{{ .Values.s3.modelPath }} /root/.cache/huggingface/{{ .Values.deployment.args.model }}
+            mc cp -r s3/{{ .Values.s3.modelHfBucket }}/{{ .Values.deployment.args.model }} /root/.cache/huggingface/{{ .Values.deployment.args.model }}
         env:
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
