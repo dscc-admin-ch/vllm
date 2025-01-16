@@ -9,7 +9,7 @@ deployment:
     tag: latest
   hftoken: your_token
   args: 
-    model: microsoft/Phi-3-mini-4k-instruct # Phi-3-mini-4k-instruct
+    model: models--microsoft--Phi-3.5-mini-instruct
     memoryutilization: 0.8
     dtype: half
     maxModelLen: 8208
@@ -19,7 +19,7 @@ deployment:
 service:
   port:
     number: 8000
-    nodePort: 30501
+    nodePort: 30500
 
 
 ingress:
@@ -30,8 +30,8 @@ ingress:
     hostname: "llm-serving.example.com"
 
 s3:
-  enabled: false # Set to true to use S3
-  modelHfBucket: "your_bucket_name"
+  enabled: true # Set to true to use S3
+  modelHfBucket: "models-hf/hf_hub/diffusion"
   # If not set and create is true, a name is generated using the fullname template
   accessKeyId: ""
   endpoint: ""
