@@ -31,8 +31,7 @@ ingress:
 
 s3:
   enabled: false # Set to true to use S3
-  bucket: "your_bucket_name"
-  modelPath: "path_to_model"
+  modelHfBucket: "your_bucket_name"
   # If not set and create is true, a name is generated using the fullname template
   accessKeyId: ""
   endpoint: ""
