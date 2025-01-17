@@ -9,7 +9,7 @@ deployment:
     tag: latest
   hftoken: your_token
   args: 
-    model: models--microsoft--Phi-3.5-mini-instruct
+    model: Llama-3.2-3B-Instruct
     memoryutilization: 0.8
     dtype: half
     maxModelLen: 8208
@@ -19,7 +19,6 @@ deployment:
 service:
   port:
     number: 8000
-    nodePort: 30500
 
 
 ingress:
@@ -27,14 +26,14 @@ ingress:
     className: "nginx"
     annotations: 
       nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-    hostname: "llm-serving.example.com"
+    hostname: "llm-serving.lab.sspcloud.fr"
 
 s3:
   enabled: true # Set to true to use S3
   modelHfBucket: "models-hf/hf_hub/diffusion"
   # If not set and create is true, a name is generated using the fullname template
-  accessKeyId: ""
-  endpoint: ""
-  defaultRegion: ""
-  secretAccessKey: ""
-  sessionToken: ""
+  accessKeyId: "" #$AWS_ACCESS_KEY_ID
+  endpoint: "" #$AWS_S3_ENDPOINT
+  defaultRegion: "" #$AWS_DEFAULT_REGION
+  secretAccessKey: "" #$AWS_SECRET_ACCESS_KEY
+  sessionToken: "" #$AWS_SESSION_TOKEN
