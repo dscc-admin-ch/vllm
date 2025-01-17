@@ -30,7 +30,7 @@ ingress:
 
 s3:
   enabled: true # Set to true to use S3
-  modelHfBucket: "models-hf/hf_hub/diffusion" #"lmarti/diffusion/models"
+  modelHfBucket: "models-hf/hf_hub/diffusion"
   # If not set and create is true, a name is generated using the fullname template
   accessKeyId: "" #$AWS_ACCESS_KEY_ID
   endpoint: "" #$AWS_S3_ENDPOINT
