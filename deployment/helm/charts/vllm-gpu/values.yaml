@@ -9,7 +9,7 @@ deployment:
     tag: latest
   hftoken: your_token
   args: 
-    model: microsoft/Phi-3-mini-4k-instruct # Phi-3-mini-4k-instruct
+    model: Phi-3-mini-4k-instruct
     memoryutilization: 0.8
     dtype: half
     maxModelLen: 8208
@@ -19,7 +19,6 @@ deployment:
 service:
   port:
     number: 8000
-    nodePort: 30501
 
 
 ingress:
@@ -27,15 +26,14 @@ ingress:
     className: "nginx"
     annotations: 
       nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-    hostname: "llm-serving.example.com"
+    hostname: "llm-serving.lab.sspcloud.fr"
 
 s3:
-  enabled: false # Set to true to use S3
-  bucket: "your_bucket_name"
-  modelPath: "path_to_model"
+  enabled: true # Set to true to use S3
+  modelHfBucket: "models-hf/hf_hub/diffusion" #"lmarti/diffusion/models"
   # If not set and create is true, a name is generated using the fullname template
-  accessKeyId: "$AWS_ACCESS_KEY_ID" #$AWS_ACCESS_KEY_ID
-  endpoint: "$AWS_S3_ENDPOINT" #$AWS_S3_ENDPOINT
-  defaultRegion: "$AWS_DEFAULT_REGION" #$AWS_DEFAULT_REGION
-  secretAccessKey: "$AWS_SECRET_ACCESS_KEY" #$AWS_SECRET_ACCESS_KEY
-  sessionToken: "$AWS_SESSION_TOKEN" #$AWS_SESSION_TOKEN
+  accessKeyId: "" #$AWS_ACCESS_KEY_ID
+  endpoint: "" #$AWS_S3_ENDPOINT
+  defaultRegion: "" #$AWS_DEFAULT_REGION
+  secretAccessKey: "" #$AWS_SECRET_ACCESS_KEY
+  sessionToken: "" #$AWS_SESSION_TOKEN
