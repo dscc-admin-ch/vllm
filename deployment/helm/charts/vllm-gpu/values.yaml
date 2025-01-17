@@ -9,7 +9,7 @@ deployment:
     tag: latest
   hftoken: your_token
   args: 
-    model: Phi-3-mini-4k-instruct
+    model: Llama-3.2-3B-Instruct
     memoryutilization: 0.8
     dtype: half
     maxModelLen: 8208
