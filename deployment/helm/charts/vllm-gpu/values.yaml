@@ -2,38 +2,48 @@ nameOverride: ""
 fullnameOverride: "llm-serving"
 podAnnotations: {}
 
-deployment:
-  image:
-    repository: vllm/vllm-openai
-    pullPolicy: Always
-    tag: latest
-  hftoken: your_token
-  args: 
-    model: Llama-3.2-3B-Instruct
-    memoryutilization: 0.8
-    dtype: half
-    maxModelLen: 8208
-  gpu:
-    number: 1
-
 service:
+  image:
+    version: "vllm/vllm-openai:v0.7.0"
+    pullPolicy: IfNotPresent
+    custom:
+      enabled: false
+      version: ""
+
+resources:
+  limits:
+    gpu:
+      number: 1
+
+huggingFace: 
+  hfToken: ""
+
+llm:
+  hfNamespace: meta-llama
+  hfModel: Llama-3.2-1B-Instruct
+  localPath: "/root/.cache/huggingface"
+  memoryUtilization: 0.8
+  dtype: "half"
+  maxModelLen": 8208
+
+networking:
   port:
     number: 8000
 
-
 ingress:
     enabled: true
-    className: "nginx"
+    className: ""
     annotations: 
       nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-    hostname: "llm-serving.lab.sspcloud.fr"
+    hostname: "chart-example.local"
 
 s3:
   enabled: true # Set to true to use S3
-  modelHfBucket: "models-hf/hf_hub/diffusion"
-  # If not set and create is true, a name is generated using the fullname template
-  accessKeyId: "" #$AWS_ACCESS_KEY_ID
-  endpoint: "" #$AWS_S3_ENDPOINT
-  defaultRegion: "" #$AWS_DEFAULT_REGION
-  secretAccessKey: "" #$AWS_SECRET_ACCESS_KEY
-  sessionToken: "" #$AWS_SESSION_TOKEN
+  s3ModelPath: ""
+  accessKeyId: ""
+  endpoint: ""
+  defaultRegion: ""
+  secretAccessKey: ""
+  sessionToken: ""
+
+nodeSelector: {}

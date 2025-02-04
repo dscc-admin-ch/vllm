@@ -8,8 +8,7 @@ spec:
   selector:
     {{- include "llm-serving.selectorLabels" . | nindent 4 }}
   ports:
-  - port: {{ .Values.service.port.number }}
+  - port: {{ .Values.networking.port.number }}
     protocol: TCP
-    targetPort: {{ .Values.service.port.number }}
-    nodePort: {{ .Values.service.port.nodePort }}
+    nodePort: {{ .Values.networking.port.nodePort }}
   type: NodePort
