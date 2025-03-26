@@ -3,7 +3,11 @@ kind: Deployment
 metadata:
   name: {{ include "llm-serving.fullname" . }}
 spec:
+  {{- if .Values.global.suspend }}
+  replicas: 0
+  {{- else }}
   replicas: 1
+  {{- end }}
   selector:
     matchLabels:
       {{- include "llm-serving.selectorLabels" . | nindent 6 }}
@@ -40,17 +44,8 @@ spec:
         {{- else }}
         - {{ .Values.llm.hfModelName }}
         {{- end }}
-        {{- if hasKey .Values.llm "memoryUtilization" }}
-        - --gpu-memory-utilization
-        - "{{ .Values.llm.memoryUtilization }}"
-        {{- end }}
-        {{- if hasKey .Values.llm "dtype" }}
-        - --dtype
-        - "{{ .Values.llm.dtype }}"
-        {{- end }}
-        {{- if hasKey .Values.llm "maxModelLen" }}
-        - --max-model-len
-        - "{{ .Values.llm.maxModelLen }}"
+        {{- range $arg := splitList " " .Values.llm.args }}
+        - {{ $arg }}
         {{- end }}
         volumeMounts:
         - mountPath: /dev/shm

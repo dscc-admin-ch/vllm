@@ -1,4 +1,5 @@
 {{- if .Values.ingress.enabled -}}
+{{- if not .Values.global.suspend }}
 {{/*
   These two are defined as such because calling . within a range loop
   is shortcut for path (see https://stackoverflow.com/questions/72484286/ingress-variables-syntax-from-values-yaml)
@@ -52,4 +53,5 @@ spec:
               serviceName: {{ $fullName }}
               servicePort: {{ $svcPort }}
               {{- end }}
+{{- end}}
 {{- end}}
