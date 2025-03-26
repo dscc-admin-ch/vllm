@@ -1,3 +1,4 @@
+{{- if not .Values.global.suspend }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -5,10 +6,14 @@ metadata:
   labels:
      {{- include "llm-serving.labels" . | nindent 4 }}
 spec:
+  type: {{ .Values.service.type }}
   selector:
     {{- include "llm-serving.selectorLabels" . | nindent 4 }}
   ports:
   - port: {{ .Values.networking.port.number }}
     protocol: TCP
-    nodePort: {{ .Values.networking.port.nodePort }}
-  type: NodePort
+    targetPort: {{ .Values.networking.port.number }}
+    {{- if .Values.service.nodePort }}
+    nodePort: {{ .Values.service.nodePort }}
+    {{- end}}
+{{- end}}
