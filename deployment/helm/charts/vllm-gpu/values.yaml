@@ -4,7 +4,7 @@ podAnnotations: {}
 
 service:
   image:
-    version: "vllm/vllm-openai:v0.7.0"
+    version: "vllm/vllm-openai:v0.8.2"
     pullPolicy: IfNotPresent
     custom:
       enabled: false
